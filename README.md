@@ -7,4 +7,4 @@ It requires libgmp for big integers calculation
 To compile: ``` g++ key.cpp -o key -lgmp -lgmpxx ```
 
 # Usage
-```./key <name:string> <days:int> <users:int>```
+Run the program ```./key``` and enter your name
