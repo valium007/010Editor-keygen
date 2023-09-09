@@ -1,5 +1,5 @@
-# 010HexEditorKeygen
-Keygen for 010Hex Editor
+# 010 Editor Keygen
+Keygen for 010 Editor
 
 # Compiling
 It requires libgmp for big integers calculation
