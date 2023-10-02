@@ -86,32 +86,17 @@ int encode_pd(int a, int b) {
   return (a * 17 ^ 0xa8e53167) + 0x2c175 ^ 0xff22c078 ^ b;
 }
 
-std::string insert_hyphens(const std::string &in, const size_t every_n) {
-  std::string out;
-  out.reserve(in.size() + in.size() / every_n);
-  for (std::string::size_type i = 0; i < in.size(); i++) {
-    if (!(i % every_n) && i) {
-      out.push_back('-');
-    }
-    out.push_back(in[i]);
-  }
-  return out;
-}
-
 void fl(int unsigned long p[]) {
-  std::ostringstream ac;
-
+  int s = 0;
   for (int i = 0; i < 10; i += 2) {
     int t = p[i] << 8 | p[i + 1];
-    char key[50];
-    sprintf(key, "%04x", (t & 0xffff));
-    ac << key << "";
+    s += 1;
+    if (s == 5) {
+      printf("%04X\n", (t & 0xffff));
+    } else {
+      printf("%04X-", (t & 0xffff));
+    }
   }
-
-  std::string b = ac.str();
-  std::string key = insert_hyphens(b, 4);
-  std::transform(key.begin(), key.end(), key.begin(), ::toupper);
-  std::cout << key << "\n";
 }
 
 int rshift(mpz_t rop, int bits) {
@@ -149,12 +134,26 @@ void gl(std::string &name, int users, int days_left) {
   fl(p);
 }
 
-int rnum() {
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_int_distribution<> distr(70000, 99999);
+int getIntInput(const std::string &msg, int from, int to) {
 
-  return distr(gen);
+  std::string input;
+  bool isValidInput = false;
+  int validinput;
+
+  while (!isValidInput) {
+    try {
+      std::cout << msg << from << " and " << to << ":\t";
+      std::cin >> input;
+
+      size_t takenChars;
+      validinput = std::stoi(input, &takenChars);
+      if (validinput >= from && validinput <= to && takenChars == input.size())
+        isValidInput = true;
+    } catch (...) {
+    }
+  }
+
+  return validinput;
 }
 
 int main() {
@@ -162,8 +161,7 @@ int main() {
   std::string name;
   std::cout << "Enter name: ";
   std::cin >> name;
-
-  while (true) {
-    gl(name, 99, rnum());
-  }
+  std::string usg = "Enter users between ";
+  std::string dsg = "Enter days between ";
+  gl(name, getIntInput(usg, 1, 9999), getIntInput(dsg, 1, 9999));
 }
